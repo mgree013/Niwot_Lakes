@@ -27,11 +27,11 @@ library(viridis)
 #load in Data
 
 #Species Data
-source("code/knb-lter-nwt.161.3.r")
+source("Data/knb-lter-nwt.161.3.r")
 
 ###############################################
 #Load Ice data
-dt1<-source("code/knb-lter-nwt.106.2.r")
+dt1<-source("Data/knb-lter-nwt.106.2.r")
 
 ice_out<-dt1
 
@@ -447,7 +447,7 @@ TukeyHSD(mod2)
 ################################################################################################################
 #####Env Ordination####
 
-source("code/knb-lter-nwt.10.2.r")
+source("Data/knb-lter-nwt.10.2.r")
 dt1$lake_network_number<-if_else(dt1$local_site=="GL5",1,if_else(dt1$local_site=="GL4",2,if_else(dt1$local_site=="GL3",3,if_else(dt1$local_site=="GL2",4,if_else(dt1$local_site=="ALB",5,0)))))
 dt1$elevation<-if_else(dt1$local_site=="GL5",3621,if_else(dt1$local_site=="GL4",3563,if_else(dt1$local_site=="GL3",3455,if_else(dt1$local_site=="GL2",3408,if_else(dt1$local_site=="ALB",3357,3431)))))
 
@@ -457,7 +457,7 @@ env1<-dt1%>%
   #separate("date", sep="-" ,into=c("year", "month", "day"))
 
 #water temp/chl data
-source("code/knb-lter-nwt.157.5.r")
+source("Data/knb-lter-nwt.157.5.r")
 
 env2<-dt1%>%dplyr::select(c(local_site,date,chl_a, pH, temp,location,depth, year))# %>%
   #mutate(day_of_year=lubridate::yday(date))%>%
@@ -595,7 +595,7 @@ env_vars<-env_var%>% dplyr::rename(Site = local_site) %>%
 
 
 #Environmental Water_chem, Zoo
-source("code/knb-lter-nwt.157.5.r")
+source("Data/knb-lter-nwt.157.5.r")
 
 all<-left_join(env_vars,ordintation.env, by=c("Site", "year", "month","day", "day_of_year"))%>%drop_na()
 
@@ -758,7 +758,7 @@ combined%>%
 
 ################################################################################################################################################################
 #Traits
-source("code/knb-lter-nwt.161.3.r")
+source("Data/knb-lter-nwt.161.3.r")
 
 traits<-dt1%>%
   dplyr::select(-c(Notes, LTER_site))
