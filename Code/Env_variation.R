@@ -12,7 +12,7 @@ library(lubridate)
 library(ggbiplot)
 
 #run the other  attatched r script to load the data entitled "knb-lter-newt.161.3.r'
-
+source("Data/knb-lter-newt.161.3.r")
 #Lets look at our data
 str(dt1)
 summary(dt1)

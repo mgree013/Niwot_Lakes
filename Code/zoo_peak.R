@@ -10,7 +10,7 @@ library(tidyverse)
 library(vegan)
 #load in Data
 
-source("code/161.3.r")
+source("Data/knb-lter-nwt.161.3.r")
 #work the data so it's easier to use
 site_species <- cast(dt2, date+local_site+location ~ taxon, value='density')
 #site_species$date <- as.Date(site_species$date)
