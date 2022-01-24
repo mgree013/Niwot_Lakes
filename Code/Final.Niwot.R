@@ -567,22 +567,30 @@ ice_out%>%
   filter(lake=="GL1" | lake=="GL4"|lake=="ALB")%>%
   ggplot(aes(x=year,y=form_jday,colour=lake))+
   geom_point()+ geom_smooth(method="lm")+ylab("Day of Year of Lake Ice Formation")+
-  facet_grid(~lake)
+  facet_grid(~lake)+
+  theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.border = element_blank(),panel.background = element_blank())
 
 ice_out%>%
   filter(lake=="GL1" | lake=="GL4"|lake=="ALB")%>%
   ggplot(aes(x=year,y=clear_jday))+
-  geom_point()+ geom_smooth(method="lm")
+  geom_point()+ geom_smooth(method="lm")+
+  theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.border = element_blank(),panel.background = element_blank())
 
 ice_out%>%
   filter(lake=="GL1" | lake=="GL4"|lake=="ALB")%>%
   ggplot(aes(x=year,y=break_jday))+
-  geom_point()+ geom_smooth(method="lm")
+  geom_point()+ geom_smooth(method="lm")+
+  theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.border = element_blank(),panel.background = element_blank())
 
 ice_out%>%
   filter(lake=="GL1" | lake=="GL4"|lake=="ALB")%>%
   ggplot(aes(x=year,y=form_jday))+
-  geom_point()+ geom_smooth(method="lm")
+  geom_point()+ geom_smooth(method="lm")+
+  theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.border = element_blank(),panel.background = element_blank())
 
 
 
@@ -599,9 +607,9 @@ env_vars<-env_var%>% dplyr::rename(Site = local_site) %>%
 #Environmental Water_chem, Zoo
 source("Data/knb-lter-nwt.157.5.r")
 
-all<-left_join(env_vars,ordintation.env, by=c("Site", "year", "month","day", "day_of_year"))%>%drop_na()
+all<-left_join(env_vars,ordintation.env, by=c("Site", "year", "month","day", "day_of_year"))
 
-water_temp<-dt1%>%dplyr::select(c(local_site,date,chl_a, pH, temp))%>% dplyr::rename(Site = local_site) %>%
+water_temp<-dt1%>%dplyr::select(c(local_site,date,chl_a, pH, temp))%>% dplyr::rename(Site = local_site)%>%
   mutate(day_of_year=lubridate::yday(date))%>%
   separate("date", sep="-" ,into=c("year", "month", "day"))
 
@@ -609,8 +617,8 @@ all_datas<-left_join(all,water_temp, by=c("Site", "year", "month","day", "day_of
 
 #Relate environmetnal and biological data
 #calulate diversity
-species<-all_datas%>%dplyr::select(c(Keratella, Mite, Nematoda, Notholca, Ostracoda, D.thomasi, H.shoshone, Kellicottia,Ascomorpha, Asplanchna, Bosmina, Chaoboridae, Chydoridae, Colletheca,D_pulicaria, D_rosea))
-env<-all_datas%>%dplyr::select(-c(Keratella, Mite, Nematoda, Notholca, Ostracoda, D.thomasi, H.shoshone, Kellicottia,Ascomorpha, Asplanchna, Bosmina, Chaoboridae, Chydoridae, Colletheca,D_pulicaria, D_rosea))
+species<-all_datas%>%dplyr::select(c(Keratella, Mite, Nematoda, Notholca, Ostracoda, D.thomasi, H.shoshone, Kellicottia,Ascomorpha, Asplanchna, Bosmina, Chaoboridae, Chydoridae, Colletheca,D.pulicaria, D.rosea))
+env<-all_datas%>%dplyr::select(-c(Keratella, Mite, Nematoda, Notholca, Ostracoda, D.thomasi, H.shoshone, Kellicottia,Ascomorpha, Asplanchna, Bosmina, Chaoboridae, Chydoridae, Colletheca,D.pulicaria, D.rosea))
 
 diversity<-species%>%
   #dplyr::select(-c(Unknown, total))%>% # remove unknonwn and total denstiies
