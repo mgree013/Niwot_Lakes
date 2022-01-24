@@ -6,7 +6,7 @@ Niwot Lake Analysis of Zooplankton Phenology and Changing Ice Cover
 
 ### Data
 1. Data/knb-lter-nwt.161.3.r<- Species Data
-2. Data/knb-lter-nwt.106.2.r<- Ice Data
+2. Data/knb-lter-nwt.106.4.r<- Ice Data
 3. Data/knb-lter-nwt.10.2.r<- Environmental Data
 4. Data/knb-lter-nwt.157.5.r<- Environmental Data 2
 
