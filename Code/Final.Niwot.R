@@ -607,6 +607,7 @@ env_vars<-env_var%>% dplyr::rename(Site = local_site) %>%
 #Environmental Water_chem, Zoo
 source("Data/knb-lter-nwt.157.5.r")
 
+#problem is here with joining data sets, not really joining
 all<-left_join(env_vars,ordintation.env, by=c("Site", "year", "month","day", "day_of_year"))
 
 water_temp<-dt1%>%dplyr::select(c(local_site,date,chl_a, pH, temp))%>% dplyr::rename(Site = local_site)%>%
@@ -810,6 +811,7 @@ traitsy%>%
   geom_point()+
   geom_smooth(method="loess")+
   facet_wrap(year~taxon)
+
 #Link triats to sites with environmental data
 #Fix size and magnfication data!
 traitss<-traits%>% unite("Site.loc.date", c(local_site,date,location))%>%
@@ -852,11 +854,6 @@ datasz%>%
   geom_boxplot()+
   facet_grid(~var,scales="free")
 
-datasz%>%
-  gather(CWM_size,Fric,FDis,FEve, key = "var", value = "value") %>% 
-  ggplot(aes(x=Site,y=value,colour=Site))+
-  geom_boxplot()+
-  facet_grid(~var,scales="free")
+#variation in body size
 
-
-#variaiton in body size
+#Add in Roland Body Size Data thats missing from NIWOT
