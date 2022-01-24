@@ -26,12 +26,11 @@ library(viridis)
 ################################################################################################################
 #load in Data
 
-#Species Data
-source("Data/knb-lter-nwt.161.3.r")
+
 
 ###############################################
 #Load Ice data
-dt1<-source("Data/knb-lter-nwt.106.2.r")
+source("Data/knb-lter-nwt.106.2.r")
 
 ice_out<-dt1
 
@@ -41,12 +40,15 @@ ice_out<-ice_out%>%
   mutate_if(is.character ,str_replace_all, pattern = 'Green3', replacement = 'GL3')%>%
   mutate_if(is.character ,str_replace_all, pattern = 'Green4', replacement = 'GL4')%>%
   mutate_if(is.character ,str_replace_all, pattern = 'Green5', replacement = 'GL5')%>%
-  mutate_if(is.character ,str_replace_all, pattern = 'Albion', replacement = 'ALB')%>%
-  filter(form_jday <350)
+  mutate_if(is.character ,str_replace_all, pattern = 'Albion', replacement = 'ALB')#%>%
+  #filter(complete_ice_formation <350)
 
 str(ice_out)
 
 ################################################################################################################
+#Species Data
+source("Data/knb-lter-nwt.161.3.r")
+
 ##Make Site x species matrix (wide format)
 site_species <- cast(dt2, date+local_site+location ~ taxon, value='density')
 site_species <- as.data.frame(site_species)
