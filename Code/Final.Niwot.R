@@ -602,7 +602,7 @@ env_vars<-env_var%>% dplyr::rename(Site = local_site) %>%
   mutate(day_of_year=lubridate::yday(date))%>%
   separate("date", sep="-" ,into=c("year", "month", "day"))
 
-
+env_vars$Site<-as.character(env_vars$Site)
 
 #Environmental Water_chem, Zoo
 source("Data/knb-lter-nwt.157.5.r")
@@ -614,7 +614,9 @@ water_temp<-dt1%>%dplyr::select(c(local_site,date,chl_a, pH, temp))%>% dplyr::re
   mutate(day_of_year=lubridate::yday(date))%>%
   separate("date", sep="-" ,into=c("year", "month", "day"))
 
-all_datas<-left_join(all,water_temp, by=c("Site", "year", "month","day", "day_of_year"))%>%drop_na()
+water_temp$Site<-as.character(water_temp$Site)
+
+all_datas<-left_join(all,water_temp, by=c("Site", "year", "month","day", "day_of_year"))#%>%drop_na()
 
 #Relate environmetnal and biological data
 #calulate diversity
@@ -634,7 +636,7 @@ diversity<-species%>%
             #betas.LCBD=beta.div(species, method="hellinger",sqrt.D=TRUE)$LCBD) #Local contribution to beta diversity
 #PCA
 env_var<-env%>%
-  dplyr::select(c(Site,month,day,year,depth,elevation,pH.x,pH.y,temp,chl_a,conduct ,ANC,H.plus.,Ca.plus..plus., Mg.plus..plus., Na.plus., K.plus., Cl.hyphen.,NO3.hyphen., SO4.hyphen..hyphen.,     Si, cat_sum,  an_sum,   TDN,   DON))%>%
+  dplyr::select(c(Site,month,day,year,depth,elevation,pH.x,pH.y,temp.y,chl_a.y,conduct ,ANC,H.plus.,Ca.plus..plus., Mg.plus..plus., Na.plus., K.plus., Cl.hyphen.,NO3.hyphen., SO4.hyphen..hyphen.,Si, cat_sum, an_sum, TDN,DON))%>%
   drop_na()
 
 dog.stream <-prcomp(env_var[,7:25], center = TRUE,scale. = TRUE) #PCA code
@@ -812,8 +814,8 @@ traitsy%>%
   geom_smooth(method="loess")+
   facet_wrap(year~taxon)
 
-#Link triats to sites with environmental data
-#Fix size and magnfication data!
+#Link traits to sites with environmental data
+#Fix size and magnification data!
 traitss<-traits%>% unite("Site.loc.date", c(local_site,date,location))%>%
   dplyr::select(-c(neonate_count, ephippia, melanin, melanization_score, magnification, scope_size))
   
@@ -852,7 +854,10 @@ datasz%>%
   gather(CWM_size,FDis,FEve, key = "var", value = "value") %>% 
   ggplot(aes(x=Site,y=value,fill=Site))+
   geom_boxplot()+
-  facet_grid(~var,scales="free")
+  scale_fill_viridis(discrete = TRUE)+  
+  facet_grid(~var,scales="free")+
+  theme(axis.line = element_line(colour = "black"),panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.border = element_blank(),panel.background = element_blank())
 
 #variation in body size
 
